@@ -656,3 +656,695 @@ dim(subset(tg.glgc.1.2.3v2_ol, n > 7))
 
 
 
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
+##
+##   GERA gene-based results
+##
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
+
+setwd("~/Desktop/projects/POST/lipids_GLGC_GERA/output/paris_results/biofilter_2.4.2/gera/version4/detailed_output/")
+dir()
+
+#paris_hg19 rw/ pathway_genes_paris_hg19
+#paris-summary_formatted rw/ paris-detail
+#gera. rw gera.genes
+
+
+tc.gera.genes.1  <- read.table(file = "pathway_genes_paris_hg19_pval_input_TC-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed1.paris-detail", header = FALSE)
+tc.gera.genes.2  <- read.table(file = "pathway_genes_paris_hg19_pval_input_TC-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed2.paris-detail", header = FALSE)
+tc.gera.genes.3  <- read.table(file = "pathway_genes_paris_hg19_pval_input_TC-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed3.paris-detail", header = FALSE)
+tc.gera.genes.4  <- read.table(file = "pathway_genes_paris_hg19_pval_input_TC-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed4.paris-detail", header = FALSE)
+tc.gera.genes.5  <- read.table(file = "pathway_genes_paris_hg19_pval_input_TC-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed5.paris-detail", header = FALSE)
+tc.gera.genes.6  <- read.table(file = "pathway_genes_paris_hg19_pval_input_TC-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed6.paris-detail", header = FALSE)
+tc.gera.genes.7  <- read.table(file = "pathway_genes_paris_hg19_pval_input_TC-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed7.paris-detail", header = FALSE)
+tc.gera.genes.8  <- read.table(file = "pathway_genes_paris_hg19_pval_input_TC-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed8.paris-detail", header = FALSE)
+tc.gera.genes.9  <- read.table(file = "pathway_genes_paris_hg19_pval_input_TC-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed9.paris-detail", header = FALSE)
+tc.gera.genes.10 <- read.table(file = "pathway_genes_paris_hg19_pval_input_TC-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed10.paris-detail", header = FALSE)
+
+head(tc.gera.genes.1)
+
+tc.gera.genes.1$seed <- 1
+tc.gera.genes.2$seed <- 2
+tc.gera.genes.3$seed <- 3
+tc.gera.genes.4$seed <- 4
+tc.gera.genes.5$seed <- 5
+tc.gera.genes.6$seed <- 6
+tc.gera.genes.7$seed <- 7
+tc.gera.genes.8$seed <- 8
+tc.gera.genes.9$seed <- 9
+tc.gera.genes.10$seed <- 10
+
+
+tc.gera.genes.1to10_pp <- rbind.fill(tc.gera.genes.1, 
+                                     tc.gera.genes.2, 
+                                     tc.gera.genes.3, 
+                                     tc.gera.genes.4, 
+                                     tc.gera.genes.5, 
+                                     tc.gera.genes.6, 
+                                     tc.gera.genes.7, 
+                                     tc.gera.genes.8, 
+                                     tc.gera.genes.9, 
+                                     tc.gera.genes.10)
+dim(tc.gera.genes.1to10_pp)
+colnames(tc.gera.genes.1to10_pp) <- c("pathway","gene","p","seed")
+head(tc.gera.genes.1to10_pp)
+
+#tc.gera.genes.1to10_ol <- 
+
+#Count 
+tc.gera.genes.1to10_pp %>% 
+  filter( p < 0.01 , pathway %in%  c("Hepatitis_C" ,"Cholesterol_metabolism" )) %>% 
+  group_by(pathway, gene) %>% summarize(n = n())
+
+#LDLR in HC and CM
+
+########################################################################################################################################################
+########################################################################################################################################################
+
+TG.gera.genes.1  <- read.table(file = "pathway_genes_paris_hg19_pval_input_logTG-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed1.paris-detail", header = FALSE)
+TG.gera.genes.2  <- read.table(file = "pathway_genes_paris_hg19_pval_input_logTG-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed2.paris-detail", header = FALSE)
+TG.gera.genes.3  <- read.table(file = "pathway_genes_paris_hg19_pval_input_logTG-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed3.paris-detail", header = FALSE)
+TG.gera.genes.4  <- read.table(file = "pathway_genes_paris_hg19_pval_input_logTG-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed4.paris-detail", header = FALSE)
+TG.gera.genes.5  <- read.table(file = "pathway_genes_paris_hg19_pval_input_logTG-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed5.paris-detail", header = FALSE)
+TG.gera.genes.6  <- read.table(file = "pathway_genes_paris_hg19_pval_input_logTG-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed6.paris-detail", header = FALSE)
+TG.gera.genes.7  <- read.table(file = "pathway_genes_paris_hg19_pval_input_logTG-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed7.paris-detail", header = FALSE)
+TG.gera.genes.8  <- read.table(file = "pathway_genes_paris_hg19_pval_input_logTG-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed8.paris-detail", header = FALSE)
+TG.gera.genes.9  <- read.table(file = "pathway_genes_paris_hg19_pval_input_logTG-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed9.paris-detail", header = FALSE)
+TG.gera.genes.10 <- read.table(file = "pathway_genes_paris_hg19_pval_input_logTG-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed10.paris-detail", header = FALSE)
+
+head(TG.gera.genes.1)
+
+TG.gera.genes.1$seed <- 1
+TG.gera.genes.2$seed <- 2
+TG.gera.genes.3$seed <- 3
+TG.gera.genes.4$seed <- 4
+TG.gera.genes.5$seed <- 5
+TG.gera.genes.6$seed <- 6
+TG.gera.genes.7$seed <- 7
+TG.gera.genes.8$seed <- 8
+TG.gera.genes.9$seed <- 9
+TG.gera.genes.10$seed <- 10
+
+
+TG.gera.genes.1to10_pp <- rbind.fill(TG.gera.genes.1, 
+                                     TG.gera.genes.2, 
+                                     TG.gera.genes.3, 
+                                     TG.gera.genes.4, 
+                                     TG.gera.genes.5, 
+                                     TG.gera.genes.6, 
+                                     TG.gera.genes.7, 
+                                     TG.gera.genes.8, 
+                                     TG.gera.genes.9, 
+                                     TG.gera.genes.10)
+dim(TG.gera.genes.1to10_pp)
+colnames(TG.gera.genes.1to10_pp) <- c("pathway","gene","p","seed")
+
+#TG.gera.genes.1to10_ol <- 
+
+#Count 
+TG.gera.genes.1to10_pp %>% 
+  filter( p < 0.01 , pathway %in%  c("Hepatitis_C" ,"Cholesterol_metabolism" )) %>% 
+  group_by(pathway, gene) %>% summarize(n = n())
+
+########################################################################################################################################################
+########################################################################################################################################################
+
+LDL.gera.genes.1  <- read.table(file = "pathway_genes_paris_hg19_pval_input_LDLf-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed1.paris-detail", header = FALSE)
+LDL.gera.genes.2  <- read.table(file = "pathway_genes_paris_hg19_pval_input_LDLf-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed2.paris-detail", header = FALSE)
+LDL.gera.genes.3  <- read.table(file = "pathway_genes_paris_hg19_pval_input_LDLf-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed3.paris-detail", header = FALSE)
+LDL.gera.genes.4  <- read.table(file = "pathway_genes_paris_hg19_pval_input_LDLf-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed4.paris-detail", header = FALSE)
+LDL.gera.genes.5  <- read.table(file = "pathway_genes_paris_hg19_pval_input_LDLf-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed5.paris-detail", header = FALSE)
+LDL.gera.genes.6  <- read.table(file = "pathway_genes_paris_hg19_pval_input_LDLf-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed6.paris-detail", header = FALSE)
+LDL.gera.genes.7  <- read.table(file = "pathway_genes_paris_hg19_pval_input_LDLf-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed7.paris-detail", header = FALSE)
+LDL.gera.genes.8  <- read.table(file = "pathway_genes_paris_hg19_pval_input_LDLf-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed8.paris-detail", header = FALSE)
+LDL.gera.genes.9  <- read.table(file = "pathway_genes_paris_hg19_pval_input_LDLf-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed9.paris-detail", header = FALSE)
+LDL.gera.genes.10 <- read.table(file = "pathway_genes_paris_hg19_pval_input_LDLf-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed10.paris-detail", header = FALSE)
+
+head(LDL.gera.genes.1)
+
+LDL.gera.genes.1$seed <- 1
+LDL.gera.genes.2$seed <- 2
+LDL.gera.genes.3$seed <- 3
+LDL.gera.genes.4$seed <- 4
+LDL.gera.genes.5$seed <- 5
+LDL.gera.genes.6$seed <- 6
+LDL.gera.genes.7$seed <- 7
+LDL.gera.genes.8$seed <- 8
+LDL.gera.genes.9$seed <- 9
+LDL.gera.genes.10$seed <- 10
+
+
+LDL.gera.genes.1to10_pp <- rbind.fill(LDL.gera.genes.1, 
+                                     LDL.gera.genes.2, 
+                                     LDL.gera.genes.3, 
+                                     LDL.gera.genes.4, 
+                                     LDL.gera.genes.5, 
+                                     LDL.gera.genes.6, 
+                                     LDL.gera.genes.7, 
+                                     LDL.gera.genes.8, 
+                                     LDL.gera.genes.9, 
+                                     LDL.gera.genes.10)
+dim(LDL.gera.genes.1to10_pp)
+colnames(LDL.gera.genes.1to10_pp) <- c("pathway","gene","p","seed")
+
+#LDL.gera.genes.1to10_ol <- 
+
+#Count 
+LDL.gera.genes.1to10_pp %>% 
+  filter( p < 0.01 , pathway %in%  c("Hepatitis_C" ,"Cholesterol_metabolism" )) %>% 
+  group_by(pathway, gene) %>% summarize(n = n())
+
+#LDLR in HC and CM
+
+########################################################################################################################################################
+########################################################################################################################################################
+
+HDL.gera.genes.1  <- read.table(file = "pathway_genes_paris_hg19_pval_input_sqrtHDL-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed1.paris-detail", header = FALSE)
+HDL.gera.genes.2  <- read.table(file = "pathway_genes_paris_hg19_pval_input_sqrtHDL-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed2.paris-detail", header = FALSE)
+HDL.gera.genes.3  <- read.table(file = "pathway_genes_paris_hg19_pval_input_sqrtHDL-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed3.paris-detail", header = FALSE)
+HDL.gera.genes.4  <- read.table(file = "pathway_genes_paris_hg19_pval_input_sqrtHDL-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed4.paris-detail", header = FALSE)
+HDL.gera.genes.5  <- read.table(file = "pathway_genes_paris_hg19_pval_input_sqrtHDL-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed5.paris-detail", header = FALSE)
+HDL.gera.genes.6  <- read.table(file = "pathway_genes_paris_hg19_pval_input_sqrtHDL-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed6.paris-detail", header = FALSE)
+HDL.gera.genes.7  <- read.table(file = "pathway_genes_paris_hg19_pval_input_sqrtHDL-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed7.paris-detail", header = FALSE)
+HDL.gera.genes.8  <- read.table(file = "pathway_genes_paris_hg19_pval_input_sqrtHDL-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed8.paris-detail", header = FALSE)
+HDL.gera.genes.9  <- read.table(file = "pathway_genes_paris_hg19_pval_input_sqrtHDL-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed9.paris-detail", header = FALSE)
+HDL.gera.genes.10 <- read.table(file = "pathway_genes_paris_hg19_pval_input_sqrtHDL-EUR.tsv_kegg_prep_v4.1_loop_v4.1_seed10.paris-detail", header = FALSE)
+
+head(HDL.gera.genes.1)
+
+HDL.gera.genes.1$seed <- 1
+HDL.gera.genes.2$seed <- 2
+HDL.gera.genes.3$seed <- 3
+HDL.gera.genes.4$seed <- 4
+HDL.gera.genes.5$seed <- 5
+HDL.gera.genes.6$seed <- 6
+HDL.gera.genes.7$seed <- 7
+HDL.gera.genes.8$seed <- 8
+HDL.gera.genes.9$seed <- 9
+HDL.gera.genes.10$seed <- 10
+
+
+HDL.gera.genes.1to10_pp <- rbind.fill(HDL.gera.genes.1, 
+                                      HDL.gera.genes.2, 
+                                      HDL.gera.genes.3, 
+                                      HDL.gera.genes.4, 
+                                      HDL.gera.genes.5, 
+                                      HDL.gera.genes.6, 
+                                      HDL.gera.genes.7, 
+                                      HDL.gera.genes.8, 
+                                      HDL.gera.genes.9, 
+                                      HDL.gera.genes.10)
+dim(HDL.gera.genes.1to10_pp)
+colnames(HDL.gera.genes.1to10_pp) <- c("pathway","gene","p","seed")
+
+#HDL.gera.genes.1to10_ol <- 
+
+#Count 
+HDL.gera.genes.1to10_pp %>% 
+  filter( p < 0.01 , pathway %in%  c("Hepatitis_C" ,"Cholesterol_metabolism" )) %>% 
+  group_by(pathway, gene) %>% summarize(n = n())
+
+#HDL SCARB1 in HC and CM
+
+
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
+##
+##   GLGC gene-based analysis
+##
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
+
+setwd("~/Desktop/projects/POST/lipids_GLGC_GERA/output/paris_results/biofilter_2.4.2/glgc/version4/detailed_output/")
+dir()
+
+#paris_hg19 rw/ pathway_genes_paris_hg19
+#paris-summary_formatted rw/ paris-detail
+#gera. rw gera.genes
+
+#replcae TC-EUR.tsv w glgc_jointGwasMc_TC.txt
+tc.glgc.genes.1  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TC.txt_kegg_prep_v4.1_loop_v4.1_seed1.paris-detail", header = FALSE)
+tc.glgc.genes.2  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TC.txt_kegg_prep_v4.1_loop_v4.1_seed2.paris-detail", header = FALSE)
+tc.glgc.genes.3  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TC.txt_kegg_prep_v4.1_loop_v4.1_seed3.paris-detail", header = FALSE)
+tc.glgc.genes.4  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TC.txt_kegg_prep_v4.1_loop_v4.1_seed4.paris-detail", header = FALSE)
+tc.glgc.genes.5  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TC.txt_kegg_prep_v4.1_loop_v4.1_seed5.paris-detail", header = FALSE)
+tc.glgc.genes.6  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TC.txt_kegg_prep_v4.1_loop_v4.1_seed6.paris-detail", header = FALSE)
+tc.glgc.genes.7  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TC.txt_kegg_prep_v4.1_loop_v4.1_seed7.paris-detail", header = FALSE)
+tc.glgc.genes.8  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TC.txt_kegg_prep_v4.1_loop_v4.1_seed8.paris-detail", header = FALSE)
+tc.glgc.genes.9  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TC.txt_kegg_prep_v4.1_loop_v4.1_seed9.paris-detail", header = FALSE)
+tc.glgc.genes.10 <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TC.txt_kegg_prep_v4.1_loop_v4.1_seed10.paris-detail", header = FALSE)
+
+head(tc.glgc.genes.1)
+
+tc.glgc.genes.1$seed <- 1
+tc.glgc.genes.2$seed <- 2
+tc.glgc.genes.3$seed <- 3
+tc.glgc.genes.4$seed <- 4
+tc.glgc.genes.5$seed <- 5
+tc.glgc.genes.6$seed <- 6
+tc.glgc.genes.7$seed <- 7
+tc.glgc.genes.8$seed <- 8
+tc.glgc.genes.9$seed <- 9
+tc.glgc.genes.10$seed <- 10
+
+
+tc.glgc.genes.1to10_pp <- rbind.fill(tc.glgc.genes.1, 
+                                     tc.glgc.genes.2, 
+                                     tc.glgc.genes.3, 
+                                     tc.glgc.genes.4, 
+                                     tc.glgc.genes.5, 
+                                     tc.glgc.genes.6, 
+                                     tc.glgc.genes.7, 
+                                     tc.glgc.genes.8, 
+                                     tc.glgc.genes.9, 
+                                     tc.glgc.genes.10)
+dim(tc.glgc.genes.1to10_pp)
+colnames(tc.glgc.genes.1to10_pp) <- c("pathway","gene","p","seed")
+head(tc.glgc.genes.1to10_pp)
+
+#tc.glgc.genes.1to10_ol <- 
+
+#Count 
+tc.glgc.genes.1to10_pp %>% 
+  filter( p < 0.01 , pathway %in%  c("Hepatitis_C" ,"Cholesterol_metabolism" )) %>% 
+  group_by(pathway, gene) %>% summarize(n = n())
+
+#Total cholesterol
+#LDLR in HC and CM
+
+########################################################################################################################################################
+########################################################################################################################################################
+
+TG.glgc.genes.1  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TG.txt_kegg_prep_v4.1_loop_v4.1_seed1.paris-detail", header = FALSE)
+TG.glgc.genes.2  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TG.txt_kegg_prep_v4.1_loop_v4.1_seed2.paris-detail", header = FALSE)
+TG.glgc.genes.3  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TG.txt_kegg_prep_v4.1_loop_v4.1_seed3.paris-detail", header = FALSE)
+TG.glgc.genes.4  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TG.txt_kegg_prep_v4.1_loop_v4.1_seed4.paris-detail", header = FALSE)
+TG.glgc.genes.5  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TG.txt_kegg_prep_v4.1_loop_v4.1_seed5.paris-detail", header = FALSE)
+TG.glgc.genes.6  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TG.txt_kegg_prep_v4.1_loop_v4.1_seed6.paris-detail", header = FALSE)
+TG.glgc.genes.7  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TG.txt_kegg_prep_v4.1_loop_v4.1_seed7.paris-detail", header = FALSE)
+TG.glgc.genes.8  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TG.txt_kegg_prep_v4.1_loop_v4.1_seed8.paris-detail", header = FALSE)
+TG.glgc.genes.9  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TG.txt_kegg_prep_v4.1_loop_v4.1_seed9.paris-detail", header = FALSE)
+TG.glgc.genes.10 <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_TG.txt_kegg_prep_v4.1_loop_v4.1_seed10.paris-detail", header = FALSE)
+
+head(TG.glgc.genes.1)
+
+TG.glgc.genes.1$seed <- 1
+TG.glgc.genes.2$seed <- 2
+TG.glgc.genes.3$seed <- 3
+TG.glgc.genes.4$seed <- 4
+TG.glgc.genes.5$seed <- 5
+TG.glgc.genes.6$seed <- 6
+TG.glgc.genes.7$seed <- 7
+TG.glgc.genes.8$seed <- 8
+TG.glgc.genes.9$seed <- 9
+TG.glgc.genes.10$seed <- 10
+
+
+TG.glgc.genes.1to10_pp <- rbind.fill(TG.glgc.genes.1, 
+                                     TG.glgc.genes.2, 
+                                     TG.glgc.genes.3, 
+                                     TG.glgc.genes.4, 
+                                     TG.glgc.genes.5, 
+                                     TG.glgc.genes.6, 
+                                     TG.glgc.genes.7, 
+                                     TG.glgc.genes.8, 
+                                     TG.glgc.genes.9, 
+                                     TG.glgc.genes.10)
+dim(TG.glgc.genes.1to10_pp)
+colnames(TG.glgc.genes.1to10_pp) <- c("pathway","gene","p","seed")
+
+#TG.glgc.genes.1to10_ol <- 
+
+#Count 
+TG.glgc.genes.1to10_pp %>% 
+  filter( p < 0.01 , pathway %in%  c("Hepatitis_C" ,"Cholesterol_metabolism" )) %>% 
+  group_by(pathway, gene) %>% summarize(n = n())
+
+########################################################################################################################################################
+########################################################################################################################################################
+
+LDL.glgc.genes.1  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_LDL.txt_kegg_prep_v4.1_loop_v4.1_seed1.paris-detail", header = FALSE)
+LDL.glgc.genes.2  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_LDL.txt_kegg_prep_v4.1_loop_v4.1_seed2.paris-detail", header = FALSE)
+LDL.glgc.genes.3  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_LDL.txt_kegg_prep_v4.1_loop_v4.1_seed3.paris-detail", header = FALSE)
+LDL.glgc.genes.4  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_LDL.txt_kegg_prep_v4.1_loop_v4.1_seed4.paris-detail", header = FALSE)
+LDL.glgc.genes.5  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_LDL.txt_kegg_prep_v4.1_loop_v4.1_seed5.paris-detail", header = FALSE)
+LDL.glgc.genes.6  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_LDL.txt_kegg_prep_v4.1_loop_v4.1_seed6.paris-detail", header = FALSE)
+LDL.glgc.genes.7  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_LDL.txt_kegg_prep_v4.1_loop_v4.1_seed7.paris-detail", header = FALSE)
+LDL.glgc.genes.8  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_LDL.txt_kegg_prep_v4.1_loop_v4.1_seed8.paris-detail", header = FALSE)
+LDL.glgc.genes.9  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_LDL.txt_kegg_prep_v4.1_loop_v4.1_seed9.paris-detail", header = FALSE)
+LDL.glgc.genes.10 <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_LDL.txt_kegg_prep_v4.1_loop_v4.1_seed10.paris-detail", header = FALSE)
+
+head(LDL.glgc.genes.1)
+
+LDL.glgc.genes.1$seed <- 1
+LDL.glgc.genes.2$seed <- 2
+LDL.glgc.genes.3$seed <- 3
+LDL.glgc.genes.4$seed <- 4
+LDL.glgc.genes.5$seed <- 5
+LDL.glgc.genes.6$seed <- 6
+LDL.glgc.genes.7$seed <- 7
+LDL.glgc.genes.8$seed <- 8
+LDL.glgc.genes.9$seed <- 9
+LDL.glgc.genes.10$seed <- 10
+
+
+LDL.glgc.genes.1to10_pp <- rbind.fill(LDL.glgc.genes.1, 
+                                      LDL.glgc.genes.2, 
+                                      LDL.glgc.genes.3, 
+                                      LDL.glgc.genes.4, 
+                                      LDL.glgc.genes.5, 
+                                      LDL.glgc.genes.6, 
+                                      LDL.glgc.genes.7, 
+                                      LDL.glgc.genes.8, 
+                                      LDL.glgc.genes.9, 
+                                      LDL.glgc.genes.10)
+dim(LDL.glgc.genes.1to10_pp)
+colnames(LDL.glgc.genes.1to10_pp) <- c("pathway","gene","p","seed")
+
+#LDL.glgc.genes.1to10_ol <- 
+
+#Count 
+LDL.glgc.genes.1to10_pp %>% 
+  filter( p < 0.01 , pathway %in%  c("Hepatitis_C" ,"Cholesterol_metabolism" )) %>% 
+  group_by(pathway, gene) %>% summarize(n = n())
+
+#LDL gwas
+#LDLR in HC and CM
+
+########################################################################################################################################################
+########################################################################################################################################################
+
+HDL.glgc.genes.1  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_HDL.txt_kegg_prep_v4.1_loop_v4.1_seed1.paris-detail", header = FALSE)
+HDL.glgc.genes.2  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_HDL.txt_kegg_prep_v4.1_loop_v4.1_seed2.paris-detail", header = FALSE)
+HDL.glgc.genes.3  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_HDL.txt_kegg_prep_v4.1_loop_v4.1_seed3.paris-detail", header = FALSE)
+HDL.glgc.genes.4  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_HDL.txt_kegg_prep_v4.1_loop_v4.1_seed4.paris-detail", header = FALSE)
+HDL.glgc.genes.5  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_HDL.txt_kegg_prep_v4.1_loop_v4.1_seed5.paris-detail", header = FALSE)
+HDL.glgc.genes.6  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_HDL.txt_kegg_prep_v4.1_loop_v4.1_seed6.paris-detail", header = FALSE)
+HDL.glgc.genes.7  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_HDL.txt_kegg_prep_v4.1_loop_v4.1_seed7.paris-detail", header = FALSE)
+HDL.glgc.genes.8  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_HDL.txt_kegg_prep_v4.1_loop_v4.1_seed8.paris-detail", header = FALSE)
+HDL.glgc.genes.9  <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_HDL.txt_kegg_prep_v4.1_loop_v4.1_seed9.paris-detail", header = FALSE)
+HDL.glgc.genes.10 <- read.table(file = "pathway_genes_paris_hg19_pval_input_glgc_jointGwasMc_HDL.txt_kegg_prep_v4.1_loop_v4.1_seed10.paris-detail", header = FALSE)
+
+head(HDL.glgc.genes.1)
+
+HDL.glgc.genes.1$seed <- 1
+HDL.glgc.genes.2$seed <- 2
+HDL.glgc.genes.3$seed <- 3
+HDL.glgc.genes.4$seed <- 4
+HDL.glgc.genes.5$seed <- 5
+HDL.glgc.genes.6$seed <- 6
+HDL.glgc.genes.7$seed <- 7
+HDL.glgc.genes.8$seed <- 8
+HDL.glgc.genes.9$seed <- 9
+HDL.glgc.genes.10$seed <- 10
+
+
+HDL.glgc.genes.1to10_pp <- rbind.fill(HDL.glgc.genes.1, 
+                                      HDL.glgc.genes.2, 
+                                      HDL.glgc.genes.3, 
+                                      HDL.glgc.genes.4, 
+                                      HDL.glgc.genes.5, 
+                                      HDL.glgc.genes.6, 
+                                      HDL.glgc.genes.7, 
+                                      HDL.glgc.genes.8, 
+                                      HDL.glgc.genes.9, 
+                                      HDL.glgc.genes.10)
+dim(HDL.glgc.genes.1to10_pp)
+colnames(HDL.glgc.genes.1to10_pp) <- c("pathway","gene","p","seed")
+
+#HDL.glgc.genes.1to10_ol <- 
+
+#Count 
+HDL.glgc.genes.1to10_pp %>% 
+  filter( p < 0.01 , pathway %in%  c("Hepatitis_C" ,"Cholesterol_metabolism" )) %>% 
+  group_by(pathway, gene) %>% summarize(n = n())
+
+#Scarb1 in CM and HC
+
+
+
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
+##
+##   Creating input for pathview
+##  
+##
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
+#creat file with gene, gera, glgc, and GSEA results using CM and HC genes
+
+#,"Cholesterol_metabolism"
+
+
+kegg_hcv <- function (x) {
+  xdf <- as.data.frame(x %>% 
+    filter( p < 0.01 , pathway %in%  c("Hepatitis_C"  )) %>% 
+    group_by(pathway, gene) %>% summarize(n = n()))
+    return(xdf[,c(-1)])
+}
+
+
+hdl_glgc_hcv_genes <- kegg_hcv(HDL.glgc.genes.1to10_pp)
+ldl_glgc_hcv_genes <- kegg_hcv(LDL.glgc.genes.1to10_pp)
+tg_glgc_hcv_genes <- kegg_hcv(TG.glgc.genes.1to10_pp)
+tc_glgc_hcv_genes <- kegg_hcv(tc.glgc.genes.1to10_pp)
+
+hdl_gera_hcv_genes <- kegg_hcv(HDL.gera.genes.1to10_pp)
+ldl_gera_hcv_genes <- kegg_hcv(LDL.gera.genes.1to10_pp)
+tg_gera_hcv_genes <- kegg_hcv(TG.gera.genes.1to10_pp)
+tc_gera_hcv_genes <- kegg_hcv(tc.gera.genes.1to10_pp)
+
+
+hcv_gera_glgc_hdl <- merge(hdl_gera_hcv_genes, hdl_glgc_hcv_genes, by = "gene", all = TRUE)
+colnames(hcv_gera_glgc_hdl) <- c("gene","HDL.gera.count","HDL.glgc.count" )
+
+hcv_gera_glgc_ldl <- merge(ldl_gera_hcv_genes, ldl_glgc_hcv_genes, by = "gene", all = TRUE)
+colnames(hcv_gera_glgc_ldl) <- c("gene", "LDL.gera.count","LDL.glgc.count" )
+
+hcv_gera_glgc_tc <-  merge(tc_gera_hcv_genes,  tc_glgc_hcv_genes, by = "gene", all = TRUE)
+colnames(hcv_gera_glgc_tc) <- c("gene", "TC.gera.count", "TC.glgc.count" )
+
+hcv_gera_glgc_tg <-  merge(tg_gera_hcv_genes,  tg_glgc_hcv_genes, by = "gene", all = TRUE)
+colnames(hcv_gera_glgc_tg) <- c("gene", "TG.gera.count", "TG.glgc.count" )
+
+hcv_gera_glgc_hdl.ldl <- merge(hcv_gera_glgc_hdl, hcv_gera_glgc_ldl, by = "gene", all = TRUE)
+hcv_gera_glgc_hdl.ldl
+hcv_gera_glgc_hdl.ldl.tc <- merge(hcv_gera_glgc_hdl.ldl, hcv_gera_glgc_tc, by = "gene", all = TRUE)
+hcv_gera_glgc_hdl.ldl.tc
+hcv_gera_glgc_all <- merge(hcv_gera_glgc_hdl.ldl.tc, hcv_gera_glgc_tg, by = "gene", all = TRUE)
+hcv_gera_glgc_all
+
+hcv_gera_glgc_all[is.na(hcv_gera_glgc_all)] <- "0"
+
+setwd("~/Desktop/projects/POST/data/POST/theusch_2016/gsea_tpj201612x2_analysis/output/tpj201612x2_rna_seq_order_sig_gsea_hgnc_2018lokiKEGG_plot50.GseaPreranked.1520864978540/")
+
+
+gsea_hepc <- read.table(file = "HEPATITIS_C_gsea_output.txt", sep = "\t", header =TRUE)
+head(gsea_hepc)
+
+
+hcv_gera_glgc_gsea <- merge(hcv_gera_glgc_all, gsea_hepc, by.x = "gene", by.y = "PROBE", all.x = TRUE)
+
+
+#hcv_gera_glgc_gsea$Core_Enrichment <- ifelse(is.na(hcv_gera_glgc_gsea$CORE.ENRICHMENT), "NA", as.character(hcv_gera_glgc_gsea$CORE.ENRICHMENT))
+hcv_gera_glgc_gsea$Core_Enrichment <- ifelse(hcv_gera_glgc_gsea$CORE.ENRICHMENT == "Yes", 10 , as.character("NA"))
+
+hcv_gera_glgc_gsea
+colnames(hcv_gera_glgc_gsea)
+hcv_gera_glgc_gsea %>%  select(1:9,17)
+hcv_gera_glgc_gsea2 <- hcv_gera_glgc_gsea %>%  select(1:7,17)
+hcv_gera_glgc_gsea2
+
+setwd("~/Desktop/projects/POST/lipids_GLGC_GERA/output/gsea_paris_results/")
+
+write.table(hcv_gera_glgc_gsea2, file = "hcv_gera_glgc_up_reg_rna_gsea.txt",sep = "\t",quote = FALSE,row.names = FALSE)
+
+
+kegg_cm <- function (x) {
+  xdf <- as.data.frame(x %>% 
+                         filter( p < 0.01 , pathway %in%  c("Hepatitis_C"  )) %>% 
+                         group_by(pathway, gene) %>% summarize(n = n()))
+  return(xdf[,c(-1)])
+}
+
+
+make_pathview_table <- function(HDL.glgc.genes.1to10_pp, LDL.glgc.genes.1to10_pp, TG.glgc.genes.1to10_pp,tc.glgc.genes.1to10_pp,
+                                HDL.gera.genes.1to10_pp, LDL.gera.genes.1to10_pp, TG.gera.genes.1to10_pp,tc.gera.genes.1to10_pp){
+  
+  
+  hdl_glgc_path_genes <- kegg_cm(HDL.glgc.genes.1to10_pp)
+  ldl_glgc_path_genes <- kegg_cm(LDL.glgc.genes.1to10_pp)
+  tg_glgc_path_genes <- kegg_cm(TG.glgc.genes.1to10_pp)
+  tc_glgc_path_genes <- kegg_cm(tc.glgc.genes.1to10_pp)
+  
+  hdl_gera_path_genes <- kegg_cm(HDL.gera.genes.1to10_pp)
+  ldl_gera_path_genes <- kegg_cm(LDL.gera.genes.1to10_pp)
+  tg_gera_path_genes <- kegg_cm(TG.gera.genes.1to10_pp)
+  tc_gera_path_genes <- kegg_cm(tc.gera.genes.1to10_pp)
+ 
+  
+  path_gera_glgc_hdl <- merge(hdl_gera_path_genes, hdl_glgc_path_genes, by = "gene", all = TRUE)
+  colnames(path_gera_glgc_hdl) <- c("gene","HDL.gera.count","HDL.glgc.count" )
+  
+  path_gera_glgc_ldl <- merge(ldl_gera_path_genes, ldl_glgc_path_genes, by = "gene", all = TRUE)
+  colnames(path_gera_glgc_ldl) <- c("gene", "LDL.gera.count","LDL.glgc.count" )
+  
+  path_gera_glgc_tc <-  merge(tc_gera_path_genes,  tc_glgc_path_genes, by = "gene", all = TRUE)
+  colnames(path_gera_glgc_tc) <- c("gene", "TC.gera.count", "TC.glgc.count" )
+  
+  path_gera_glgc_tg <-  merge(tg_gera_path_genes,  tg_glgc_path_genes, by = "gene", all = TRUE)
+  colnames(path_gera_glgc_tg) <- c("gene", "TG.gera.count", "TG.glgc.count" )
+  
+  path_gera_glgc_hdl.ldl <- merge(path_gera_glgc_hdl, path_gera_glgc_ldl, by = "gene", all = TRUE)
+  
+  path_gera_glgc_hdl.ldl.tc <- merge(path_gera_glgc_hdl.ldl, path_gera_glgc_tc, by = "gene", all = TRUE)
+  
+  path_gera_glgc_all <- merge(path_gera_glgc_hdl.ldl.tc, path_gera_glgc_tg, by = "gene", all = TRUE)
+  
+  
+  path_gera_glgc_all[is.na(path_gera_glgc_all)] <- "0"
+  
+  setwd("~/Desktop/projects/POST/data/POST/theusch_2016/gsea_tpj201612x2_analysis/output/tpj201612x2_rna_seq_order_sig_gsea_hgnc_2018lokiKEGG_plot50.GseaPreranked.1520864978540/")
+  
+  gsea_path <- read.table(file = "CHOLESTEROL_METABOLISM_gsea_output.txt", sep = "\t", header =TRUE)
+  
+  
+  path_gera_glgc_gsea <- merge(path_gera_glgc_all, gsea_path, by.x = "gene", by.y = "PROBE", all.x = TRUE)
+  
+  path_gera_glgc_gsea$Core_Enrichment <- ifelse(path_gera_glgc_gsea$CORE.ENRICHMENT == "Yes", 10 , as.character("NA"))
+  path_gera_glgc_gsea2 <- path_gera_glgc_gsea %>%  select(1:9,17)
+  return(path_gera_glgc_gsea2)
+}
+  
+
+
+cm_gera_glgc_gsea2 <- make_pathview_table(HDL.glgc.genes.1to10_pp, LDL.glgc.genes.1to10_pp, TG.glgc.genes.1to10_pp,tc.glgc.genes.1to10_pp,
+                    HDL.gera.genes.1to10_pp, LDL.gera.genes.1to10_pp, TG.gera.genes.1to10_pp,tc.gera.genes.1to10_pp)
+
+setwd("~/Desktop/projects/POST/lipids_GLGC_GERA/output/gsea_paris_results/")
+
+write.table(cm_gera_glgc_gsea2, file = "cm_gera_glgc_up_reg_rna_gsea_all.txt",sep = "\t",quote = FALSE,row.names = FALSE)
+
+
+cm_gera_glgc_gsea2_p1 <- cm_gera_glgc_gsea2[,c(1,10)]
+cm_gera_glgc_gsea2_p2 <- cm_gera_glgc_gsea2[,c(2:9)]
+cm_gera_glgc_gsea2 <- cm_gera_glgc_gsea2[,-1]
+t(cm_gera_glgc_gsea2)
+
+
+sub_matrix<-t(cm_gera_glgc_gsea2[,-1])
+cbind(X1=cm_gera_glgc_gsea2[,1],as.data.frame(t(sub_matrix)))
+
+
+
+
+
+setwd("~/Desktop/projects/POST/lipids_GLGC_GERA/output/gsea_paris_results/")
+
+write.table(cm_gera_glgc_gsea2, file = "cm_gera_glgc_up_reg_rna_gsea.txt",sep = "\t",quote = FALSE,row.names = FALSE)
+
+
+
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
+##
+##   Heatmap Viz
+##  
+##
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
+
+################################################################
+################################################################
+#Heat map cluster
+
+tg.glgc.gera_merge <- merge(tg.glgc.1.2.3v2_ol, tg.gera.1.2.3v2_ol, by = "pathway" , all = TRUE )
+colnames(tg.glgc.gera_merge) <- c("pathway","TG_GLGC","TG_GERA")
+
+tc.glgc.gera_merge <- merge(tc.glgc.1.2.3v2_ol, tc.gera.1.2.3v2_ol, by = "pathway" , all = TRUE )
+colnames(tc.glgc.gera_merge) <- c("pathway","TC_GLGC","TC_GERA")
+
+ldl.glgc.gera_merge <- merge(ldl.glgc.1.2.3v2_ol, ldl.gera.1.2.3v2_ol, by = "pathway" , all = TRUE )
+colnames(ldl.glgc.gera_merge) <- c("pathway","LDL_GLGC","LDL_GERA")
+
+hdl.glgc.gera_merge <- merge(hdl.glgc.1.2.3v2_ol, hdl.gera.1.2.3v2_ol, by = "pathway" , all = TRUE )
+colnames(hdl.glgc.gera_merge) <- c("pathway","HDL_GLGC","HDL_GERA")
+
+
+tg_tc_glgc.gera_merge <- merge(tg.glgc.gera_merge, tc.glgc.gera_merge, by = "pathway", all = TRUE)
+tg_tc_ldl_glgc.gera_merge <- merge(tg_tc_glgc.gera_merge, ldl.glgc.gera_merge, by = "pathway", all = TRUE)
+all_counts_glgc.gera_merge <- merge(tg_tc_ldl_glgc.gera_merge, hdl.glgc.gera_merge, by = "pathway", all = TRUE)
+row.names(all_counts_glgc.gera_merge) <- all_counts_glgc.gera_merge[,1]
+all_counts_glgc.gera_merge <- as.matrix(all_counts_glgc.gera_merge[,-1])
+head(all_counts_glgc.gera_merge)
+
+library(gplots)
+all_counts_glgc.gera_merge[is.na(all_counts_glgc.gera_merge)] <- 0
+
+heatmap.2(t(all_counts_glgc.gera_merge),na.rm = TRUE, trace = "none",margins=c(8,23))
+
+
+################################################################
+################################################################
+
+##########GGPLOT
+
+tg.glgc.1.2.3v2_ol$id <- "TG.GLGC"
+tg.gera.1.2.3v2_ol$id <- "TG.GERA"
+tc.glgc.1.2.3v2_ol$id <- "TC.GLGC"
+tc.gera.1.2.3v2_ol$id <- "TC.GERA"
+ldl.glgc.1.2.3v2_ol$id <- "LDL.GLGC"
+ldl.gera.1.2.3v2_ol$id <- "LDL.GERA"
+hdl.glgc.1.2.3v2_ol$id <- "HDL.GLGC"
+hdl.gera.1.2.3v2_ol$id <- "HDL.GERA"
+
+
+lipids_rbind <- rbind(tg.glgc.1.2.3v2_ol,tg.gera.1.2.3v2_ol,tc.glgc.1.2.3v2_ol,tc.gera.1.2.3v2_ol,
+                    ldl.glgc.1.2.3v2_ol,ldl.gera.1.2.3v2_ol,hdl.glgc.1.2.3v2_ol,hdl.gera.1.2.3v2_ol)
+                    
+dim(lipids_rbind)
+head(lipids_rbind)
+head(melt(lipids_rbind))
+lipids_rbind_melt <- melt(lipids_rbind)[,c(1,2,4)]
+head(lipids_rbind_melt)
+dim(lipids_rbind_melt)
+
+ggplot(lipids_rbind, aes(pathway, id )) +
+  geom_tile(aes(fill = n), color = "white") +
+  scale_fill_gradient(low = "white", high = "steelblue") +
+  xlab("List of Pathways") +
+  ylab("Dataset") +
+  theme(legend.title = element_text(size = 10),
+        legend.text = element_text(size = 12),
+        plot.title = element_text(size=16),
+        axis.title=element_text(size=14,face="bold"),
+        axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(fill = "times p-value < 0.001")
+
+
+ggplot(lipids_rbind, aes(id,pathway )) +
+  geom_tile(aes(fill = n), color = "white") +
+  scale_fill_gradient(low = "white", high = "steelblue") +
+  ylab("List of Pathways") +
+  xlab("Dataset") +
+  theme(legend.title = element_text(size = 10),
+        legend.text = element_text(size = 12),
+        plot.title = element_text(size=16),
+        axis.title=element_text(size=14,face="bold"),
+        axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(fill = "times p-value < 0.001")
+
+
+
+
+
