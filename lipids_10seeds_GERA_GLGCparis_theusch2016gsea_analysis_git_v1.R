@@ -3,7 +3,7 @@
 #v2 lipids_10seeds... I'm add the gera part
 #from tc_analysis_v1
 #2018 analysis
-#HDL -> TG
+
 
 rm(list = ls())
 
