@@ -8,9 +8,33 @@
 rm(list = ls())
 
 
+
 conflicts()
 library(plyr)
 library(tidyverse)
+
+#######################
+#Count SNPs
+#GERA p-value threshold of 5x10^-8
+#sqrtHDL <- 10,916/11,196,891 loci
+#logTG  <- 12,202/11,196,891 loci
+#LDL <-9,078/11,196,885 loci
+#TC <- 13,552/11,196,884 loci
+
+mean(11196891, 11196891, 11196885, 11196884)
+#Mean = 11,196,891
+
+
+#GLGC p-value threshold of 5x10^-8
+#HDL =         3,518/2,447,441 loci
+#TG =           3,249/2,439,432 loci
+#LDL =         3,077 /2,437,751 loci
+#TC =           4,169/2,446,981 loci
+
+
+mean(2447441, 2439432, 2437751, 2446981)
+#Mean = 2,447,441
+
 
 
 
@@ -79,7 +103,7 @@ gsea_pos_ol <- function(x) {
   gsea_pos_sig25_fx$NAME <- gsub(" ", "_", gsea_pos_sig25_fx$NAME, fixed=TRUE)
   gsea_tg.glgc_paris_kegg_fx<- merge(gsea_pos_sig25_fx, x,  by = "NAME")
   #negative expression overlap
-  return(gsea_tg.glgc_paris_kegg_fx)
+  return(subset(gsea_tg.glgc_paris_kegg_fx, n > 7))
 }
 
 gsea_pos_ol(tg.glgc.1.2.3v2_ol)#Overlap with up-regulated genes (4)
@@ -94,11 +118,13 @@ gsea_neg_ol <- function(x) {
   gsea_neg_sig25_fx$NAME <- gsub(" ", "_", gsea_neg_sig25_fx$NAME, fixed=TRUE)
   gsea_tg.glgc_paris_kegg_neg_fx<- merge(gsea_neg_sig25_fx, x,  by = "NAME")
   #negative expression overlap
-  return(gsea_tg.glgc_paris_kegg_neg_fx)
+  return(subset(gsea_tg.glgc_paris_kegg_neg_fx, n > 7))
 }
 
 gsea_neg_ol(tg.glgc.1.2.3v2_ol)#Overlap with down-regulated genes
 dim(gsea_neg_ol(tg.glgc.1.2.3v2_ol))#Pathways with down-regulated genes
+
+
 
 ##############################################################################################################
 ##############################################################################################################
@@ -152,7 +178,7 @@ setwd("/Users/jemiller2/Desktop/projects/POST/data/POST/theusch_2016/gsea_tpj201
 ###############Functions
 
 gsea_pos_ol(hdl.glgc.1.2.3v2_ol)#Overlap with up-regulated genes
-dim(gsea_pos_ol(hdl.glgc.1.2.3v2_ol))#pathways with up-regulated genes
+dim(gsea_pos_ol(hdl.glgc.1.2.3v2_ol))#pathways with up-regulated genes (6)
 
 
 gsea_neg_ol(hdl.glgc.1.2.3v2_ol)#Overlap with down-regulated genes
@@ -207,7 +233,7 @@ setwd("/Users/jemiller2/Desktop/projects/POST/data/POST/theusch_2016/gsea_tpj201
 ###############Functions
 
 gsea_pos_ol(ldl.glgc.1.2.3v2_ol)#Overlap with up-regulated genes
-dim(gsea_pos_ol(ldl.glgc.1.2.3v2_ol))#pathways with up-regulated genes
+dim(gsea_pos_ol(ldl.glgc.1.2.3v2_ol))#pathways with up-regulated genes (9)
 
 
 gsea_neg_ol(ldl.glgc.1.2.3v2_ol)#Overlap with down-regulated genes
@@ -262,7 +288,7 @@ setwd("/Users/jemiller2/Desktop/projects/POST/data/POST/theusch_2016/gsea_tpj201
 ###############Functions
 
 gsea_pos_ol(tc.glgc.1.2.3v2_ol)#Overlap with up-regulated genes
-dim(gsea_pos_ol(tc.glgc.1.2.3v2_ol))#pathways with up-regulated genes
+dim(gsea_pos_ol(tc.glgc.1.2.3v2_ol))#pathways with up-regulated genes (11)
 
 
 gsea_neg_ol(tc.glgc.1.2.3v2_ol)#Overlap with down-regulated genes
@@ -347,8 +373,8 @@ gsea_pos_ol <- function(x) {
   x$NAME <- toupper(x$pathway)
   gsea_pos_sig25_fx$NAME <- gsub(" ", "_", gsea_pos_sig25_fx$NAME, fixed=TRUE)
   gsea_tg.gera_paris_kegg_fx<- merge(gsea_pos_sig25_fx, x,  by = "NAME")
-  #negative expression overlap
-  return(gsea_tg.gera_paris_kegg_fx)
+  #positive expression overlap
+  return(subset(gsea_tg.gera_paris_kegg_fx, n > 7))
 }
 
 gsea_pos_ol(tg.gera.1.2.3v2_ol)#Overlap with up-regulated genes 
@@ -363,7 +389,7 @@ gsea_neg_ol <- function(x) {
   gsea_neg_sig25_fx$NAME <- gsub(" ", "_", gsea_neg_sig25_fx$NAME, fixed=TRUE)
   gsea_tg.gera_paris_kegg_neg_fx<- merge(gsea_neg_sig25_fx, x,  by = "NAME")
   #negative expression overlap
-  return(gsea_tg.gera_paris_kegg_neg_fx)
+  return(subset(gsea_tg.gera_paris_kegg_neg_fx, n > 7))
 }
 
 gsea_neg_ol(tg.gera.1.2.3v2_ol)#Overlap with down-regulated genes
@@ -421,7 +447,7 @@ setwd("/Users/jemiller2/Desktop/projects/POST/data/POST/theusch_2016/gsea_tpj201
 
 ###############Functions
 
-gsea_pos_ol(hdl.gera.1.2.3v2_ol)#Overlap with up-regulated genes
+gsea_pos_ol(hdl.gera.1.2.3v2_ol)#Overlap with up-regulated genes(9)
 dim(gsea_pos_ol(hdl.gera.1.2.3v2_ol))#pathways with up-regulated genes
 
 
@@ -476,7 +502,7 @@ setwd("/Users/jemiller2/Desktop/projects/POST/data/POST/theusch_2016/gsea_tpj201
 ###############Functions
 
 gsea_pos_ol(ldl.gera.1.2.3v2_ol)#Overlap with up-regulated genes
-dim(gsea_pos_ol(ldl.gera.1.2.3v2_ol))#pathways with up-regulated genes
+dim(gsea_pos_ol(ldl.gera.1.2.3v2_ol))#pathways with up-regulated genes (12)
 
 
 gsea_neg_ol(ldl.gera.1.2.3v2_ol)#Overlap with down-regulated genes
@@ -533,7 +559,7 @@ setwd("/Users/jemiller2/Desktop/projects/POST/data/POST/theusch_2016/gsea_tpj201
 ###############Functions
 
 gsea_pos_ol(tc.gera.1.2.3v2_ol)#Overlap with up-regulated genes
-dim(gsea_pos_ol(tc.gera.1.2.3v2_ol))#pathways with up-regulated genes
+dim(gsea_pos_ol(tc.gera.1.2.3v2_ol))#pathways with up-regulated genes (13)
 
 
 gsea_neg_ol(tc.gera.1.2.3v2_ol)#Overlap with down-regulated genes
@@ -654,6 +680,61 @@ dim(subset(hdl.glgc.1.2.3v2_ol, n > 7))
 dim(subset(tg.gera.1.2.3v2_ol, n > 7))
 dim(subset(tg.glgc.1.2.3v2_ol, n > 7))
 
+
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
+##
+##   GERA and GLGC overlap with up-reg RNA-seq data
+##
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
+
+gsea_pos_ol(tc.glgc.1.2.3v2_ol)[,3:4]
+gsea_pos_ol(tc.gera.1.2.3v2_ol)
+
+head(tc.gera.1.2.3v2_ol)
+
+
+gera_glgc_gsea_stats <- function(gera_all, glgc_all){
+  GERA
+#  gera7 <- gsea_pos_ol(gera_all)[,3:4]
+ # #GLGC
+#  return(gera7)
+#}
+#gera_glgc_gsea_stats(tc.gera.1.2.3v2_ol,tc.glgc.1.2.3v2_ol)
+
+
+gera_glgc_gsea_stats <- function(gera_all, glgc_all){
+
+  gera7.gs <- gsea_pos_ol(gera_all)[,3:4]
+  #GLGC
+  glgc7.gs <- gsea_pos_ol(glgc_all)[,3:4]
+
+  continTT.gs <- dim(merge(gera7.gs , glgc7.gs, by = "pathway"))[1]#OL = 10
+  merged_data.gs <- merge(gera7.gs , glgc7.gs, by = "pathway", all = TRUE)
+  continTF.gs <- sum(is.na(merged_data.gs$n.x))#Not in gera, in GLGC (1)
+  continFT.gs <- sum(is.na(merged_data.gs$n.y))#Not in glgc, in GERA (15)
+  continFF.gs <- 325-continTT.gs-continTF.gs-continFT.gs
+
+  con.table.gs <- matrix(c(continTT.gs,continTF.gs,continFT.gs,continFF.gs),2,2)
+  con.table.gs
+  list(continTT.gs,fisher.test((con.table.gs)),chisq.test((con.table.gs)) )
+
+}
+
+gera_glgc_gsea_stats(tc.gera.1.2.3v2_ol,tc.glgc.1.2.3v2_ol)
+merge(gsea_pos_ol(tc.gera.1.2.3v2_ol)[,3:4], gsea_pos_ol(tc.glgc.1.2.3v2_ol)[,3:4], by ="pathway")
+
+gera_glgc_gsea_stats(ldl.gera.1.2.3v2_ol,ldl.glgc.1.2.3v2_ol)
+merge(gsea_pos_ol(ldl.gera.1.2.3v2_ol)[,3:4], gsea_pos_ol(ldl.glgc.1.2.3v2_ol)[,3:4], by ="pathway")
+
+gera_glgc_gsea_stats(hdl.gera.1.2.3v2_ol,hdl.glgc.1.2.3v2_ol)
+merge(gsea_pos_ol(hdl.gera.1.2.3v2_ol)[,3:4], gsea_pos_ol(hdl.glgc.1.2.3v2_ol)[,3:4], by ="pathway")
+
+gera_glgc_gsea_stats(tg.gera.1.2.3v2_ol,tg.glgc.1.2.3v2_ol)
+merge(gsea_pos_ol(tg.gera.1.2.3v2_ol)[,3:4], gsea_pos_ol(tg.glgc.1.2.3v2_ol)[,3:4], by ="pathway")
 
 
 ##############################################################################################################
@@ -1103,14 +1184,23 @@ HDL.glgc.genes.1to10_pp %>%
 
 #,"Cholesterol_metabolism"
 
-
+#select all genes with p < 0.01 in hep C pathway
 kegg_hcv <- function (x) {
   xdf <- as.data.frame(x %>% 
     filter( p < 0.01 , pathway %in%  c("Hepatitis_C"  )) %>% 
     group_by(pathway, gene) %>% summarize(n = n()))
     return(xdf[,c(-1)])
 }
+##################################################################
+###Genes that are seen across all the data > 64 seeds
+head(rbind(HDL.glgc.genes.1to10_pp, HDL.gera.genes.1to10_pp,LDL.glgc.genes.1to10_pp, LDL.gera.genes.1to10_pp,
+           TG.glgc.genes.1to10_pp, TG.gera.genes.1to10_pp,tc.glgc.genes.1to10_pp, tc.gera.genes.1to10_pp))
 
+all_glgc_gera_genes <- rbind(HDL.glgc.genes.1to10_pp, HDL.gera.genes.1to10_pp,LDL.glgc.genes.1to10_pp, LDL.gera.genes.1to10_pp,
+                             TG.glgc.genes.1to10_pp, TG.gera.genes.1to10_pp,tc.glgc.genes.1to10_pp, tc.gera.genes.1to10_pp) %>% 
+                              filter(p < 0.01)%>%  group_by(pathway, gene)  %>% summarise(count = n()) %>% filter(count > 64)
+dim(all_glgc_gera_genes)
+##################################################################
 
 hdl_glgc_hcv_genes <- kegg_hcv(HDL.glgc.genes.1to10_pp)
 ldl_glgc_hcv_genes <- kegg_hcv(LDL.glgc.genes.1to10_pp)
@@ -1160,7 +1250,7 @@ hcv_gera_glgc_gsea$Core_Enrichment <- ifelse(hcv_gera_glgc_gsea$CORE.ENRICHMENT 
 hcv_gera_glgc_gsea
 colnames(hcv_gera_glgc_gsea)
 hcv_gera_glgc_gsea %>%  select(1:9,17)
-hcv_gera_glgc_gsea2 <- hcv_gera_glgc_gsea %>%  select(1:7,17)
+hcv_gera_glgc_gsea2 <- hcv_gera_glgc_gsea %>%  select(1:9,17)
 hcv_gera_glgc_gsea2
 
 setwd("~/Desktop/projects/POST/lipids_GLGC_GERA/output/gsea_paris_results/")
@@ -1170,7 +1260,7 @@ write.table(hcv_gera_glgc_gsea2, file = "hcv_gera_glgc_up_reg_rna_gsea.txt",sep 
 
 kegg_cm <- function (x) {
   xdf <- as.data.frame(x %>% 
-                         filter( p < 0.01 , pathway %in%  c("Hepatitis_C"  )) %>% 
+                         filter( p < 0.01 , pathway %in%  c("Cholesterol_metabolism"  )) %>% 
                          group_by(pathway, gene) %>% summarize(n = n()))
   return(xdf[,c(-1)])
 }
@@ -1228,8 +1318,83 @@ make_pathview_table <- function(HDL.glgc.genes.1to10_pp, LDL.glgc.genes.1to10_pp
 
 cm_gera_glgc_gsea2 <- make_pathview_table(HDL.glgc.genes.1to10_pp, LDL.glgc.genes.1to10_pp, TG.glgc.genes.1to10_pp,tc.glgc.genes.1to10_pp,
                     HDL.gera.genes.1to10_pp, LDL.gera.genes.1to10_pp, TG.gera.genes.1to10_pp,tc.gera.genes.1to10_pp)
+cm_gera_glgc_gsea2
 
+
+
+
+cm_gera_glgc_gsea2$Core_Enrichment <- ifelse(cm_gera_glgc_gsea2$RUNNING.ES == "NA", as.character("NA") , as.numeric(cm_gera_glgc_gsea2$Core_Enrichment))
 setwd("~/Desktop/projects/POST/lipids_GLGC_GERA/output/gsea_paris_results/")
+
+#dfr[dfr=="<NA>"]=NA
+#install.packages("naniar")
+library(naniar)
+cm_gera_glgc_gsea2 %>% replace_with_na_all(~.x == "<NA>")
+
+#######################################################################################################################
+#manual CM
+#select all genes with p < 0.01 in hep C pathway
+kegg_cm <- function (x) {
+  xdf <- as.data.frame(x %>% 
+                         filter( p < 0.01 , pathway %in%  c("Cholesterol_metabolism"  )) %>% 
+                         group_by(pathway, gene) %>% summarize(n = n()))
+  return(xdf[,c(-1)])
+}
+
+hdl_glgc_cm_genes <- kegg_cm(HDL.glgc.genes.1to10_pp)
+ldl_glgc_cm_genes <- kegg_cm(LDL.glgc.genes.1to10_pp)
+tg_glgc_cm_genes <- kegg_cm(TG.glgc.genes.1to10_pp)
+tc_glgc_cm_genes <- kegg_cm(tc.glgc.genes.1to10_pp)
+
+hdl_gera_cm_genes <- kegg_cm(HDL.gera.genes.1to10_pp)
+ldl_gera_cm_genes <- kegg_cm(LDL.gera.genes.1to10_pp)
+tg_gera_cm_genes <- kegg_cm(TG.gera.genes.1to10_pp)
+tc_gera_cm_genes <- kegg_cm(tc.gera.genes.1to10_pp)
+
+
+cm_gera_glgc_hdl <- merge(hdl_gera_cm_genes, hdl_glgc_cm_genes, by = "gene", all = TRUE)
+colnames(cm_gera_glgc_hdl) <- c("gene","HDL.gera.count","HDL.glgc.count" )
+
+cm_gera_glgc_ldl <- merge(ldl_gera_cm_genes, ldl_glgc_cm_genes, by = "gene", all = TRUE)
+colnames(cm_gera_glgc_ldl) <- c("gene", "LDL.gera.count","LDL.glgc.count" )
+
+cm_gera_glgc_tc <-  merge(tc_gera_cm_genes,  tc_glgc_cm_genes, by = "gene", all = TRUE)
+colnames(cm_gera_glgc_tc) <- c("gene", "TC.gera.count", "TC.glgc.count" )
+
+cm_gera_glgc_tg <-  merge(tg_gera_cm_genes,  tg_glgc_cm_genes, by = "gene", all = TRUE)
+colnames(cm_gera_glgc_tg) <- c("gene", "TG.gera.count", "TG.glgc.count" )
+
+cm_gera_glgc_hdl.ldl <- merge(cm_gera_glgc_hdl, cm_gera_glgc_ldl, by = "gene", all = TRUE)
+cm_gera_glgc_hdl.ldl
+cm_gera_glgc_hdl.ldl.tc <- merge(cm_gera_glgc_hdl.ldl, cm_gera_glgc_tc, by = "gene", all = TRUE)
+cm_gera_glgc_hdl.ldl.tc
+cm_gera_glgc_all <- merge(cm_gera_glgc_hdl.ldl.tc, cm_gera_glgc_tg, by = "gene", all = TRUE)
+cm_gera_glgc_all
+
+cm_gera_glgc_all[is.na(cm_gera_glgc_all)] <- "0"
+
+setwd("~/Desktop/projects/POST/data/POST/theusch_2016/gsea_tpj201612x2_analysis/output/tpj201612x2_rna_seq_order_sig_gsea_hgnc_2018lokiKEGG_plot50.GseaPreranked.1520864978540/")
+
+
+gsea_cm <- read.csv(file = "CHOLESTEROL_METABOLISM_gsea_output.csv", header =TRUE)
+head(gsea_cm)
+
+
+cm_gera_glgc_gsea <- merge(cm_gera_glgc_all, gsea_cm, by.x = "gene", by.y = "PROBE", all.x = TRUE)
+
+cm_gera_glgc_gsea$Core_Enrichment <- ifelse(is.na(cm_gera_glgc_gsea$CORE.ENRICHMENT) == TRUE, NA, cm_gera_glgc_gsea$CORE.ENRICHMENT)
+cm_gera_glgc_gsea$Core_Enrichment <- ifelse(cm_gera_glgc_gsea$Core_Enrichment == 2, "Yes, cm_gera_glgc_gsea$CORE.ENRICHMENT)
+#cm_gera_glgc_gsea$Core_Enrichment <- ifelse(is.na(cm_gera_glgc_gsea$CORE.ENRICHMENT), "NA", as.character(cm_gera_glgc_gsea$CORE.ENRICHMENT))
+#cm_gera_glgc_gsea$Core_Enrichment <- ifelse(cm_gera_glgc_gsea$CORE.ENRICHMENT == "Yes", 10 , as.character("NA"))
+
+
+cm_gera_glgc_gsea
+colnames(cm_gera_glgc_gsea)
+cm_gera_glgc_gsea %>%  select(1:9,17)
+cm_gera_glgc_gsea2 <- cm_gera_glgc_gsea %>%  select(1:9,17)
+cm_gera_glgc_gsea2
+#Done w manual CM
+#######################################################################################################################
 
 write.table(cm_gera_glgc_gsea2, file = "cm_gera_glgc_up_reg_rna_gsea_all.txt",sep = "\t",quote = FALSE,row.names = FALSE)
 
@@ -1291,7 +1456,58 @@ head(all_counts_glgc.gera_merge)
 library(gplots)
 all_counts_glgc.gera_merge[is.na(all_counts_glgc.gera_merge)] <- 0
 
-heatmap.2(t(all_counts_glgc.gera_merge),na.rm = TRUE, trace = "none",margins=c(8,23))
+#my_palette <- colorRampPalette(c("white", "light_blue", "blue"))(n = 1000)
+dim(all_counts_glgc.gera_merge)
+
+
+pdf(file = "all_counts_glgc.gera_merge.heatmap.pdf", width = 20, height = 11)
+heatmap.2(all_counts_glgc.gera_merge,na.rm = TRUE, trace = "none",margins=c(8,20),
+          Colv="NA",dendrogram = "row",col = "bluered", sepcolor = "white",colsep = 1:8, rowsep = 1:98,
+          sepwidth =c(0.001,0.0001), cexRow = .6,
+           keysize=0.75, key.par = list(cex=0.5))
+dev.off()
+
+
+heatmap.2(t(all_counts_glgc.gera_merge),na.rm = TRUE, trace = "none",margins=c(20,8),
+          Rowv="NA",dendrogram = "col",col = "bluered", sepcolor = "white",colsep = 1:98, rowsep = 1:8,
+          sepwidth =c(0.0001,0.001), cexCol = .8,
+          keysize=0.75, key.par = list(cex=0.5))
+
+
+
+heatmap.2(t(all_counts_glgc.gera_merge),na.rm = TRUE, trace = "none",margins=c(22,8) )
+
+
+
+#install.packages("plotly")
+#install.packages("heatmaply")
+
+library(heatmaply)
+heatmaply(scale(mtcars), k_row = 3, k_col = 2)
+
+
+heatmaply(all_counts_glgc.gera_merge, k_row = 3, k_col = 2)
+#Margin (bottom,left,top, right)
+heatmaply(t(all_counts_glgc.gera_merge), k_row = 2, k_col = 3,margins = c(400,150,0,10),
+          scale_fill_gradient_fun = ggplot2::scale_fill_gradient2(low = "blue", high = "red", 
+        midpoint = 5, limits = c(0, 10)), column_text_angle = 65) 
+
+dir.create("folder")
+heatmaply(t(all_counts_glgc.gera_merge), k_row = 2, k_col = 3,margins = c(400,150,0,10),
+          scale_fill_gradient_fun = ggplot2::scale_fill_gradient2(low = "blue", high = "red", 
+           midpoint = 5, limits = c(0, 10)), column_text_angle = 65,
+          file = "folder/all_counts_glgc.gera_merge_heatmaply_plot.html")
+#browseURL("folder/all_counts_glgc.gera_merge_heatmaply_plot.html")
+pdf(file = "all_counts_glgc.gera_merge.heatmaply.pdf", width = 15, height = 10)
+heatmaply(t(all_counts_glgc.gera_merge), k_row = 2, k_col = 3,margins = c(400,150,0,10),
+          scale_fill_gradient_fun = ggplot2::scale_fill_gradient2(low = "blue", high = "red", 
+                                                                  midpoint = 5, limits = c(0, 10)), column_text_angle = 65)
+
+dev.off()
+getwd()
+#install.packages("KEGGREST")
+library(KEGGREST)
+listDatabases()
 
 
 ################################################################
@@ -1311,7 +1527,7 @@ hdl.gera.1.2.3v2_ol$id <- "HDL.GERA"
 
 lipids_rbind <- rbind(tg.glgc.1.2.3v2_ol,tg.gera.1.2.3v2_ol,tc.glgc.1.2.3v2_ol,tc.gera.1.2.3v2_ol,
                     ldl.glgc.1.2.3v2_ol,ldl.gera.1.2.3v2_ol,hdl.glgc.1.2.3v2_ol,hdl.gera.1.2.3v2_ol)
-                    
+library(reshape2)               
 dim(lipids_rbind)
 head(lipids_rbind)
 head(melt(lipids_rbind))
@@ -1320,7 +1536,7 @@ head(lipids_rbind_melt)
 dim(lipids_rbind_melt)
 
 ggplot(lipids_rbind, aes(pathway, id )) +
-  geom_tile(aes(fill = n), color = "white") +
+  geom_tile(aes(fill = n), colour = "black") +
   scale_fill_gradient(low = "white", high = "steelblue") +
   xlab("List of Pathways") +
   ylab("Dataset") +
@@ -1333,7 +1549,7 @@ ggplot(lipids_rbind, aes(pathway, id )) +
 
 
 ggplot(lipids_rbind, aes(id,pathway )) +
-  geom_tile(aes(fill = n), color = "white") +
+  geom_tile(aes(fill = n), color = "black") +
   scale_fill_gradient(low = "white", high = "steelblue") +
   ylab("List of Pathways") +
   xlab("Dataset") +
@@ -1343,7 +1559,8 @@ ggplot(lipids_rbind, aes(id,pathway )) +
         axis.title=element_text(size=14,face="bold"),
         axis.text.x = element_text(angle = 90, hjust = 1)) +
   labs(fill = "times p-value < 0.001")
-
+setwd("/Users/jemiller2/Desktop/projects/POST/lipids_GLGC_GERA/output/gsea_paris_results/")
+ggsave(filename = "lipids_heatmap_ggplot.pdf",device = "pdf")
 
 
 
