@@ -1233,22 +1233,30 @@ gsea_hepc <- read.table(file = "HEPATITIS_C_gsea_output.txt", sep = "\t", header
 head(gsea_hepc)
 
 
+##OUTput for pathviewer
 hcv_gera_glgc_gsea <- merge(hcv_gera_glgc_all, gsea_hepc, by.x = "gene", by.y = "PROBE", all = TRUE)
 hcv_gera_glgc_gsea
-
-
-
-
-
 colnames(hcv_gera_glgc_gsea)
 hcv_gera_glgc_gsea %>%  select(1:9,16)
 hcv_gera_glgc_gsea2 <- hcv_gera_glgc_gsea %>%  select(1:9,16)
 hcv_gera_glgc_gsea2
-
 setwd("~/Desktop/projects/POST/lipids_GLGC_GERA/output/gsea_paris_results/")
-
 write.table(hcv_gera_glgc_gsea2, file = "hcv_gera_glgc_up_reg_rna_gsea_all.txt",sep = "\t",quote = FALSE,row.names = FALSE)
 
+
+#Output for gene based heatmap
+hcv_gera_glgc_gsea_hm <- merge(hcv_gera_glgc_all, gsea_hepc, by.x = "gene", by.y = "PROBE", all.x = TRUE)
+hcv_gera_glgc_gsea_hm
+colnames(hcv_gera_glgc_gsea_hm)
+hcv_gera_glgc_gsea_hm %>%  select(1:9,16)
+hcv_gera_glgc_gsea_hm2 <- hcv_gera_glgc_gsea_hm %>%  select(1:9,16)
+hcv_gera_glgc_gsea_hm2
+dim(hcv_gera_glgc_gsea_hm2)
+setwd("~/Desktop/projects/POST/lipids_GLGC_GERA/output/gsea_paris_results/")
+write.table(hcv_gera_glgc_gsea_hm2, file = "hcv_gera_glgc_up_reg_rna_gsea_gene_heatmap.txt",sep = "\t",quote = FALSE,row.names = FALSE)
+
+
+############################################################################################################
 
 kegg_cm <- function (x) {
   xdf <- as.data.frame(x %>% 
@@ -1294,16 +1302,8 @@ make_pathview_table <- function(HDL.glgc.genes.1to10_pp, LDL.glgc.genes.1to10_pp
   
   path_gera_glgc_all[is.na(path_gera_glgc_all)] <- "0"
   
-  setwd("~/Desktop/projects/POST/data/POST/theusch_2016/gsea_tpj201612x2_analysis/output/tpj201612x2_rna_seq_order_sig_gsea_hgnc_2018lokiKEGG_plot50.GseaPreranked.1520864978540/")
   
-  gsea_path <- read.table(file = "CHOLESTEROL_METABOLISM_gsea_output.txt", sep = "\t", header =TRUE)
-  
-  
-  path_gera_glgc_gsea <- merge(path_gera_glgc_all, gsea_path, by.x = "gene", by.y = "PROBE", all = TRUE)
-  
-  #path_gera_glgc_gsea$Core_Enrichment <- ifelse(path_gera_glgc_gsea$CORE.ENRICHMENT == "Yes", 10 , as.character("NA"))
-  path_gera_glgc_gsea2 <- path_gera_glgc_gsea %>%  select(1:9,16)
-  return(path_gera_glgc_gsea2)
+  return(path_gera_glgc_all)
 }
   
 
@@ -1311,14 +1311,29 @@ make_pathview_table <- function(HDL.glgc.genes.1to10_pp, LDL.glgc.genes.1to10_pp
 cm_gera_glgc_gsea2 <- make_pathview_table(HDL.glgc.genes.1to10_pp, LDL.glgc.genes.1to10_pp, TG.glgc.genes.1to10_pp,tc.glgc.genes.1to10_pp,
                     HDL.gera.genes.1to10_pp, LDL.gera.genes.1to10_pp, TG.gera.genes.1to10_pp,tc.gera.genes.1to10_pp)
 
+setwd("~/Desktop/projects/POST/data/POST/theusch_2016/gsea_tpj201612x2_analysis/output/tpj201612x2_rna_seq_order_sig_gsea_hgnc_2018lokiKEGG_plot50.GseaPreranked.1520864978540/")
+
+gsea_path_cm <- read.table(file = "CHOLESTEROL_METABOLISM_gsea_output.txt", sep = "\t", header =TRUE)
 
 
+path_gera_glgc_gsea_cm <- merge(cm_gera_glgc_gsea2, gsea_path_cm, by.x = "gene", by.y = "PROBE", all = TRUE)
 
-setwd("~/Desktop/projects/POST/lipids_GLGC_GERA/output/gsea_paris_results/")
-
-
-
+#path_gera_glgc_gsea$Core_Enrichment <- ifelse(path_gera_glgc_gsea$CORE.ENRICHMENT == "Yes", 10 , as.character("NA"))
+path_gera_glgc_gsea2 <- path_gera_glgc_gsea_cm %>%  select(1:9,16)
 write.table(cm_gera_glgc_gsea2, file = "cm_gera_glgc_up_reg_rna_gsea_all.txt",sep = "\t",quote = FALSE,row.names = FALSE)
+
+
+
+#Output for gene based heatmap
+cm_gera_glgc_gsea_hm <- merge(cm_gera_glgc_gsea2, gsea_path_cm, by.x = "gene", by.y = "PROBE", all.x = TRUE)
+cm_gera_glgc_gsea_hm
+colnames(cm_gera_glgc_gsea_hm)
+cm_gera_glgc_gsea_hm %>%  select(1:9,16)
+cm_gera_glgc_gsea_hm2 <- cm_gera_glgc_gsea_hm %>%  select(1:9,16)
+cm_gera_glgc_gsea_hm2
+dim(cm_gera_glgc_gsea_hm2)
+setwd("~/Desktop/projects/POST/lipids_GLGC_GERA/output/gsea_paris_results/")
+write.table(cm_gera_glgc_gsea_hm2, file = "cm_gera_glgc_up_reg_rna_gsea_gene_heatmap.txt",sep = "\t",quote = FALSE,row.names = FALSE)
 
 
 
@@ -1365,21 +1380,14 @@ head(all_counts_glgc.gera_merge)
 ################################################################
 up_all_counts_glgc.gera_merge <- all_counts_glgc.gera_merge
 up_all_counts_glgc.gera_merge$PATHWAY <- toupper(up_all_counts_glgc.gera_merge$pathway)
-head(up_all_counts_glgc.gera_merge)
 
-###PLOT with GSEA
-library("gplots")
-library("devtools")
+all_counts_glgc.gera_merge2 <- up_all_counts_glgc.gera_merge[,c(10,2:9)] 
+head(all_counts_glgc.gera_merge2)
 
-#Load latest version of heatmap.3 function
-source_url("https://raw.githubusercontent.com/obigriffith/biostar-tutorials/master/Heatmaps/heatmap.3.R")
-
+#GSEA RNA data
 setwd("/Users/jemiller2/Desktop/projects/POST/data/POST/theusch_2016/gsea_tpj201612x2_analysis/output/tpj201612x2_rna_seq_order_sig_gsea_hgnc_2018lokiKEGG_plot50.GseaPreranked.1520864978540/")
-
 gsea_pos <- as.data.frame(read.csv( "gsea_report_for_na_pos_1520864978540.csv", header =TRUE, sep = ","))
 gsea_neg <- as.data.frame(read.csv( "gsea_report_for_na_neg_1520864978540.csv", header =TRUE, sep = ","))
-colnames(gsea_pos)
-colnames(gsea_neg)
 gsea_all <- rbind(gsea_pos,gsea_neg)
 dim(gsea_all)
 head(gsea_all)
@@ -1391,45 +1399,94 @@ head(gsea_all)
 
 gsea_all$Name2 <- gsub( " ", "_", as.character(gsea_all$NAME) )
 
-#all_counts_glgc.gera_merge.df <- as.data.frame(all_counts_glgc.gera_merge)
-#class(gsea_all)
-#class(all_counts_glgc.gera_merge.df)
-up_all_counts_glgc.gera_merge[is.na(up_all_counts_glgc.gera_merge)] <- 0
-up_all_counts_glgc.gera.gsea_merge <- merge(up_all_counts_glgc.gera_merge, gsea_all, by.x = "PATHWAY", by.y = "Name2", all.x = TRUE )
-dim(up_all_counts_glgc.gera.gsea_merge)
+gsea_all_up <- as.data.frame(gsea_all %>% select(NAME = Name2, FDR.q.val )) 
+head(gsea_all_up)
 
-head(up_all_counts_glgc.gera.gsea_merge)
-up_all_counts_glgc.gera.gsea_merge$FDR.q.val
+###PLOT with GSEA
+library("gplots")
+library("devtools")
 
-colnames(up_all_counts_glgc.gera.gsea_merge)
-up_all_counts_glgc.gera.gsea_merge_input <- up_all_counts_glgc.gera.gsea_merge[,-c(2,11)]
-head(up_all_counts_glgc.gera.gsea_merge_input)
-
-rownames(up_all_counts_glgc.gera.gsea_merge_input) <- up_all_counts_glgc.gera.gsea_merge_input[,1]
-up_all_counts_glgc.gera.gsea_merge_input <- up_all_counts_glgc.gera.gsea_merge_input[,-1]
-head(up_all_counts_glgc.gera.gsea_merge_input)
-blue_brew2 <- c('#f0f9e8','#bae4bc','#7bccc4','#43a2ca','#0868ac')
-#pdf(file = "all_counts_glgc.gera_merge_v3.heatmap.pdf", width = 20, height = 34)
-heatmap.2(as.matrix(up_all_counts_glgc.gera.gsea_merge_input),na.rm = TRUE, trace = "none",margins=c(16,50),
-          dendrogram = "both",col = blue_brew2, sepcolor = "black",colsep = 1:9, rowsep = 1:98,
-          sepwidth =c(0.01,0.01), cexRow = 1.75,cexCol = 3,na.color = "grey",
-          keysize=0.75, key.par = list(cex=0.5))
-
-#dev.off()
+#Load latest version of heatmap.3 function
+source_url("https://raw.githubusercontent.com/obigriffith/biostar-tutorials/master/Heatmaps/heatmap.3.R")
 
 
+all_counts_glgc.gera_merge2[is.na(all_counts_glgc.gera_merge2)] <- 0
+all_counts_glgc.gera_gsea_merge2 <- merge(all_counts_glgc.gera_merge2, gsea_all_up, by.x = "PATHWAY", by.y = "NAME", all.x = TRUE )
+dim(all_counts_glgc.gera_gsea_merge2)
+head(all_counts_glgc.gera_gsea_merge2)
+all_counts_glgc.gera_gsea_merge2$FDR.q.val
+
+
+#creat Row names 
+row.names(all_counts_glgc.gera_gsea_merge2) <- all_counts_glgc.gera_gsea_merge2[,1]
+all_counts_glgc.gera_gsea_merge3 <- all_counts_glgc.gera_gsea_merge2[,-c(1,10)]
+#Create vector of rownames
+row_names_pathways <- rownames(all_counts_glgc.gera_gsea_merge3)
+
+#Create vector of GSEA results with colors
+all_counts_glgc.gera_gsea_merge2$FDR.sig <- ifelse(is.na(all_counts_glgc.gera_gsea_merge2$FDR.q.val), "NA", 
+                                                   ifelse(all_counts_glgc.gera_gsea_merge2$FDR.q.val < .25, "Yes", "No"))
+
+gsea_fdr.q.val <- as.vector(all_counts_glgc.gera_gsea_merge2$FDR.sig)
+gsea_fdr.q.val_colors= ifelse(gsea_fdr.q.val == "NA", "grey", ifelse(gsea_fdr.q.val == "Yes", "#fbb4b9",  "black"))
+
+
+#Change cm_ce_colors to dataframe
+rlab_path= cbind(gsea_fdr.q.val_colors)
+colnames(rlab_path)=c("GSEA_FDR_Sig")
+rlab_pathM <- as.matrix(t(rlab_path))
+
+#Define custom dist and hclust functions for use with heatmaps
 mydist=function(c) {dist(c,method="euclidian")}
 myclust=function(c) {hclust(c,method="average")}
 
-heatmap.3(as.matrix(up_all_counts_glgc.gera.gsea_merge_input), hclustfun=myclust, distfun=mydist, na.rm = FALSE, scale="none", 
-          dendrogram="both", margins=c(13,12),
-          Rowv=TRUE, Colv=TRUE, RowSideColors = rlab_cmM, symbreaks=FALSE, key=TRUE, symkey=FALSE,
-          density.info="none", trace="none", main=main_title, labRow=cm_genes2_names,labCol = cm_genes2_colnames2 , 
-          cexRow=1.4,cexCol = 1.7, col=light_blue_col,
-          RowSideColorsSize=2, KeyValueName="", sepcolor = "black",
-          sepwidth =c(0.01,0.01),colsep = 1:8, rowsep = 1:27)
-legend(.03,.79,legend=c("Yes","No","NA"),
-       fill=c("#f4a582","black","grey"), border=FALSE, bty="n")
+colnames(all_counts_glgc.gera_gsea_merge3)
+
+all_path2_colnames <- cbind(colnames(all_counts_glgc.gera_gsea_merge3))
+
+
+
+
+main_title="Heatmap clustering of lipd traits PARIS results"
+
+
+
+
+
+#HEATMAP TO CHANGE
+head(all_counts_glgc.gera_gsea_merge3)
+blue_brew2 <- c('#f0f9e8','#bae4bc','#7bccc4','#43a2ca','#0868ac')
+#HEATMAP of ALL PARIS RESULTS AND RNA-seq but modified to crop OUT the dendrogram/keys
+setwd("/Users/jemiller2/Desktop/projects/POST/lipids_GLGC_GERA/output/gsea_paris_results/")
+pdf(file = "all_counts_glgc.gera.gsea_merge.heatmap_v1.pdf",width = 20, height = 31)
+heatmap.3(as.matrix(all_counts_glgc.gera_gsea_merge3), hclustfun=myclust, distfun=mydist, na.rm = FALSE, scale="none", 
+          dendrogram="both",margins=c(16,90),
+          Rowv=TRUE, Colv=TRUE, RowSideColors = rlab_pathM, symbreaks=FALSE, key=TRUE, symkey=FALSE,
+          density.info="none", trace="none", main=main_title, labRow=row_names_pathways,labCol =  all_path2_colnames, 
+          cexRow=2.4,cexCol = 3, col=blue_brew2,
+          RowSideColorsSize=1, KeyValueName="", sepcolor = "black",
+          sepwidth =c(0.01,0.01),colsep = 1:8, rowsep = 1:98,keysize = .2)
+#legend(0,1,legend=c("Yes","No","NA"),
+ #      fill=c("#fbb4b9","black","grey"), border=FALSE, bty="n")
+dev.off()
+
+#
+#
+#
+
+
+#HEATMAP of ALL PARIS RESULTS AND RNA-seq but modified to crop the dendrogram
+pdf(file = "all_counts_glgc.gera.gsea_merge.heatmap_left_dendrogram_v1.pdf",width = 20, height = 31)
+heatmap.3(as.matrix(all_counts_glgc.gera_gsea_merge3), hclustfun=myclust, distfun=mydist, na.rm = FALSE, scale="none", 
+          dendrogram="both",margins=c(16,90),
+          Rowv=TRUE, Colv=TRUE, RowSideColors = rlab_pathM, symbreaks=FALSE, key=TRUE, symkey=FALSE,
+          density.info="none", trace="none", main=main_title, labRow=row_names_pathways,labCol =  all_path2_colnames, 
+          cexRow=2.4,cexCol = 3, col=blue_brew2,
+          RowSideColorsSize=1, KeyValueName="", sepcolor = "black",
+          sepwidth =c(0.01,0.01),colsep = 1:8, rowsep = 1:98,keysize = .6)
+legend(.015,.9,legend=c("Yes","No","NA"),
+       fill=c("#fbb4b9","black","grey"), border=FALSE, bty="n")
+dev.off()
 
 
 
@@ -1437,11 +1494,9 @@ legend(.03,.79,legend=c("Yes","No","NA"),
 ################################################################
 
 
+#Only PARIS results in heatmap
 
-
-
-
-
+head(all_counts_glgc.gera_merge)
 row.names(all_counts_glgc.gera_merge) <- all_counts_glgc.gera_merge[,1]
 all_counts_glgc.gera_merge <- as.matrix(all_counts_glgc.gera_merge[,-1])
 head(all_counts_glgc.gera_merge)
@@ -1474,8 +1529,8 @@ heatmap.2(all_counts_glgc.gera_merge,na.rm = TRUE, trace = "none",margins=c(8,50
 
 ##dev.off()
 
-
-#Final no RNA
+setwd("/Users/jemiller2/Desktop/projects/POST/lipids_GLGC_GERA/output/gsea_paris_results/")
+#Final no RNA (cannot be viewed in Rstudio due to size)
 #pdf(file = "all_counts_glgc.gera_merge_v3.heatmap.pdf", width = 20, height = 34)
 heatmap.2(all_counts_glgc.gera_merge,na.rm = TRUE, trace = "none",margins=c(16,50),
           dendrogram = "both",col = blue_brew2, sepcolor = "black",colsep = 1:8, rowsep = 1:98,
@@ -1485,30 +1540,14 @@ heatmap.2(all_counts_glgc.gera_merge,na.rm = TRUE, trace = "none",margins=c(16,5
 #dev.off()
 
 
-heatmap.2(all_counts_glgc.gera_merge,na.rm = FALSE, trace = "none",
-          Colv="NA",dendrogram = "row",col = blue_brew2, sepcolor = "black",colsep = 1:8, rowsep = 1:98,
-          sepwidth =c(0.001,0.001), cexRow = 1.75,
-          keysize=0.75, key.par = list(cex=0.5))
 
 
-
-heatmap.2(t(all_counts_glgc.gera_merge),na.rm = TRUE, trace = "none",margins=c(20,8),
-          Rowv="NA",dendrogram = "col",col = "bluered", sepcolor = "white",colsep = 1:98, rowsep = 1:8,
-          sepwidth =c(0.0001,0.001), cexCol = .8,
-          keysize=0.75, key.par = list(cex=0.5))
-
-
-
-heatmap.2(t(all_counts_glgc.gera_merge),na.rm = TRUE, trace = "none",margins=c(4,8) )
-
-
-
-#install.packages("plotly")
-#install.packages("heatmaply")
-
+#################################################################################
+#########
+######### HEATMAPLY versions
+#########
+#################################################################################
 library(heatmaply)
-heatmaply(scale(mtcars), k_row = 3, k_col = 2)
-
 
 heatmaply(all_counts_glgc.gera_merge, k_row = 3, k_col = 2)
 #Margin (bottom,left,top, right)
@@ -1580,9 +1619,9 @@ ggplot(lipids_rbind, aes(id,pathway )) +
         axis.title=element_text(size=14,face="bold"),
         axis.text.x = element_text(angle = 90, hjust = 1)) +
   labs(fill = "times p-value < 0.001")
-setwd("/Users/jemiller2/Desktop/projects/POST/lipids_GLGC_GERA/output/gsea_paris_results/")
-ggsave(filename = "lipids_heatmap_ggplot.pdf",device = "pdf")
+#setwd("/Users/jemiller2/Desktop/projects/POST/lipids_GLGC_GERA/output/gsea_paris_results/")
+#ggsave(filename = "lipids_heatmap_ggplot.pdf",device = "pdf")
 
 
-
+##To do: add KEGG BRITE categories to heatmap3 version
 
